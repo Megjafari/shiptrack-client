@@ -1,8 +1,15 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import ShipmentDetail from './pages/ShipmentDetail';
+
 function App() {
   return (
-    <div>
-      <h1>ShipTrack</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/shipment/:id" element={<ShipmentDetail />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
