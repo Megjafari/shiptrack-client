@@ -14,7 +14,9 @@ export default function ShipmentChart() {
       background: 'var(--surface)',
       border: '1px solid var(--border)',
       padding: '24px',
-      marginBottom: '32px'
+      marginBottom: '32px',
+      minWidth: 0,
+      overflow: 'hidden'
     }}>
       <div style={{
         fontFamily: 'IBM Plex Mono',
