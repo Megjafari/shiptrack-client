@@ -1,6 +1,6 @@
 import type { Shipment, CreateShipmentRequest } from '../types/shipment';
 
-const BASE_URL = 'http://localhost:5141/api/shipments';
+const BASE_URL = import.meta.env.VITE_API_URL + '/api/shipments';
 
 export const getShipments = async (status?: string, search?: string): Promise<Shipment[]> => {
   const params = new URLSearchParams();
