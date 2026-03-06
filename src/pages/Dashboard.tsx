@@ -1,3 +1,4 @@
+import ShipmentChart from '../components/ShipmentChart';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Shipment } from '../types/shipment';
@@ -87,6 +88,9 @@ export default function Dashboard() {
             </div>
           ))}
         </div>
+
+        {/* CHART */}
+        <ShipmentChart />
 
         {/* CONTROLS */}
         <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', alignItems: 'center' }}>

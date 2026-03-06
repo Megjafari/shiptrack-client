@@ -24,3 +24,8 @@ export const createShipment = async (data: CreateShipmentRequest): Promise<Shipm
   });
   return res.json();
 };
+
+export const getStats = async (): Promise<{ date: string; count: number }[]> => {
+  const res = await fetch(`${BASE_URL}/stats`);
+  return res.json();
+};
