@@ -15,6 +15,7 @@ export default function CreateShipment() {
     carrier: 'PostNord',
     eta: '',
   });
+  const [toast, setToast] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -22,7 +23,10 @@ export default function CreateShipment() {
 
   const handleSubmit = async () => {
     await createShipment(form);
-    navigate('/');
+    setToast(true);
+    setTimeout(() => {
+      navigate('/');
+    }, 1800);
   };
 
   const inputStyle = {
@@ -48,6 +52,30 @@ export default function CreateShipment() {
 
   return (
     <div>
+      {/* TOAST */}
+      {toast && (
+        <div style={{
+          position: 'fixed',
+          bottom: '32px',
+          right: '32px',
+          background: 'var(--green-dim)',
+          border: '1px solid var(--green)',
+          color: 'var(--green)',
+          padding: '14px 20px',
+          fontFamily: 'IBM Plex Mono',
+          fontSize: '12px',
+          letterSpacing: '0.5px',
+          zIndex: 999,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          boxShadow: '0 0 20px rgba(0,230,118,0.15)',
+        }}>
+          <span style={{ fontSize: '16px' }}>✓</span>
+          SHIPMENT CREATED
+        </div>
+      )}
+
       {/* TOPBAR */}
       <div style={{
         background: 'var(--surface)',
