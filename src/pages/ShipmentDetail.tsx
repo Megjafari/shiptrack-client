@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import type { Shipment } from '../types/shipment';
 import { getShipmentById } from '../services/shipmentService';
+import ShipmentMap from '../components/ShipmentMap';
 
 const statusColors: Record<string, { bg: string; color: string }> = {
   transit: { bg: 'var(--blue-dim)', color: 'var(--blue)' },
@@ -36,7 +37,7 @@ export default function ShipmentDetail() {
 
   return (
     <div>
-      {/* TOPBAR */}
+      {/* TOPBAR – desktop only */}
       {!isMobile && (
         <div style={{
           background: 'var(--surface)',
@@ -74,6 +75,7 @@ export default function ShipmentDetail() {
         gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
         gap: '16px'
       }}>
+
         {/* INFO CARD */}
         <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', padding: isMobile ? '16px' : '24px' }}>
           <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '10px', letterSpacing: '2px', color: 'var(--text3)', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid var(--border)', textTransform: 'uppercase' }}>
@@ -164,6 +166,16 @@ export default function ShipmentDetail() {
             ))}
           </div>
         </div>
+
+        {/* MAP – full width */}
+        <div style={{ gridColumn: isMobile ? '1' : '1 / -1' }}>
+          <ShipmentMap
+            senderCity={shipment.senderCity}
+            recipientCity={shipment.recipientCity}
+            status={shipment.status}
+          />
+        </div>
+
       </div>
     </div>
   );
