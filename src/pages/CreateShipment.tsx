@@ -5,6 +5,13 @@ import { createShipment } from '../services/shipmentService';
 
 const carriers = ['PostNord', 'DHL', 'Bring', 'Budbee'];
 
+function getRecommendedCarrier(weight: number): string {
+  if (weight < 5) return 'Budbee';
+  if (weight < 20) return 'PostNord';
+  if (weight < 100) return 'DHL';
+  return 'Bring';
+}
+
 export default function CreateShipment() {
   const navigate = useNavigate();
   const [form, setForm] = useState<CreateShipmentRequest>({
@@ -14,19 +21,33 @@ export default function CreateShipment() {
     recipientCity: '',
     carrier: 'PostNord',
     eta: '',
+    weight: undefined,
   });
+  const [weightInput, setWeightInput] = useState('');
   const [toast, setToast] = useState(false);
+
+  const recommended = weightInput ? getRecommendedCarrier(parseFloat(weightInput)) : null;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setWeightInput(val);
+    const parsed = parseFloat(val);
+    if (!isNaN(parsed)) {
+      const rec = getRecommendedCarrier(parsed);
+      setForm(prev => ({ ...prev, weight: parsed, carrier: rec }));
+    } else {
+      setForm(prev => ({ ...prev, weight: undefined }));
+    }
+  };
+
   const handleSubmit = async () => {
     await createShipment(form);
     setToast(true);
-    setTimeout(() => {
-      navigate('/');
-    }, 1800);
+    setTimeout(() => navigate('/'), 1800);
   };
 
   const inputStyle = {
@@ -127,12 +148,36 @@ export default function CreateShipment() {
               <label style={labelStyle}>Recipient City</label>
               <input style={inputStyle} name="recipientCity" value={form.recipientCity} onChange={handleChange} placeholder="Göteborg" />
             </div>
+
+            {/* WEIGHT */}
             <div>
-              <label style={labelStyle}>Carrier</label>
+              <label style={labelStyle}>Weight (kg)</label>
+              <input
+                style={inputStyle}
+                type="number"
+                min="0"
+                step="0.1"
+                value={weightInput}
+                onChange={handleWeightChange}
+                placeholder="0.0"
+              />
+            </div>
+
+            {/* CARRIER */}
+            <div>
+              <label style={labelStyle}>
+                Carrier
+                {recommended && (
+                  <span style={{ marginLeft: '8px', color: 'var(--accent)', letterSpacing: '0', textTransform: 'none', fontFamily: 'IBM Plex Sans', fontSize: '11px' }}>
+                    ✦ {recommended} recommended
+                  </span>
+                )}
+              </label>
               <select style={inputStyle} name="carrier" value={form.carrier} onChange={handleChange}>
                 {carriers.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
+
             <div>
               <label style={labelStyle}>ETA</label>
               <input style={inputStyle} name="eta" type="date" value={form.eta} onChange={handleChange} />
