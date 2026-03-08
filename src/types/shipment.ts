@@ -14,6 +14,7 @@ export interface Shipment {
   carrier: string;
   status: 'transit' | 'delivered' | 'delayed' | 'pending';
   eta: string;
+  weight?: number;
   history: TrackingEvent[];
 }
 
@@ -24,4 +25,5 @@ export interface CreateShipmentRequest {
   recipientCity: string;
   carrier: string;
   eta: string;
+  weight?: number;
 }
