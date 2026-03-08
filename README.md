@@ -31,11 +31,12 @@ It focuses on building a clear UI for shipment tracking, status filtering, and o
 ## Features
 
 - Dashboard overview with shipment statistics and 30-day activity chart
-- Shipment detail view with full tracking event timeline
-- Create shipment workflow with auto-generated tracking ID
-- Filtering and search by shipment status, tracking ID, or city
+- Shipment detail view with full tracking timeline and interactive route map
+- Create shipment with weight input and automatic carrier recommendation
+- Filtering and search by status, tracking ID, or city
 - Operational table with carrier and ETA information
-- Responsive dashboard layout
+- Mobile responsive layout with hamburger menu
+- Toast notification on shipment creation
 - Type-safe data models with TypeScript
 
 ---
@@ -49,7 +50,8 @@ It focuses on building a clear UI for shipment tracking, status filtering, and o
 | Build tool | Vite |
 | Routing | React Router v6 |
 | Charts | Recharts |
-| Styling | Custom styling using CSS variables and component-level styles |
+| Maps | Leaflet + React Leaflet |
+| Styling | CSS variables + component-level styles |
 | Deploy | Vercel |
 
 ---
@@ -61,7 +63,7 @@ ShipTrack is split into two parts:
 - **ShipTrack Client** – a React dashboard used to visualize and manage shipments
 - **ShipTrack API** – an ASP.NET Core REST API that provides shipment data and tracking events
 
-The frontend fetches shipment data from the API and displays it through operational dashboards including statistics, shipment tables, and tracking timelines.
+The frontend fetches shipment data from the API and displays it through operational dashboards including statistics, shipment tables, tracking timelines, and route maps.
 
 ```
 React Client (TypeScript)
@@ -78,12 +80,13 @@ In-memory shipment dataset
 ```
 src/
 ├── components/
-│   ├── Layout.tsx          # Sidebar + main layout
-│   └── ShipmentChart.tsx   # 30-day line chart
+│   ├── Layout.tsx          # Sidebar + mobile hamburger menu
+│   ├── ShipmentChart.tsx   # 30-day line chart
+│   └── ShipmentMap.tsx     # Interactive route map (Leaflet)
 ├── pages/
 │   ├── Dashboard.tsx       # Main overview page
-│   ├── ShipmentDetail.tsx  # Single shipment view
-│   └── CreateShipment.tsx  # New shipment form
+│   ├── ShipmentDetail.tsx  # Single shipment view with map
+│   └── CreateShipment.tsx  # New shipment form with carrier recommendation
 ├── services/
 │   └── shipmentService.ts  # API calls
 ├── types/
@@ -97,15 +100,16 @@ src/
 ## Screenshots
 
 ### Dashboard
-<img width="1899" height="899" alt="Screenshot 2026-03-06 102142" src="https://github.com/user-attachments/assets/90379857-a952-4f4a-9d4e-2f4b505d387b" />
+<img width="1896" height="918" alt="overview" src="https://github.com/user-attachments/assets/8bb49565-3303-4e91-9668-4c4e5f60ffa4" />
 
 
 ### Shipment Detail
-<img width="1904" height="725" alt="Screenshot 2026-03-06 102221" src="https://github.com/user-attachments/assets/60b125ac-669c-4efd-9d96-59448d6ec825" />
+<img width="1896" height="920" alt="detail" src="https://github.com/user-attachments/assets/177303e6-b2ed-494a-bb00-88282b34bcef" />
 
 
 ### Create Shipment
-<img width="744" height="582" alt="Screenshot 2026-03-06 102252" src="https://github.com/user-attachments/assets/73587be6-ff1d-4f3b-a739-fc91c8db8308" />
+<img width="1063" height="660" alt="Create" src="https://github.com/user-attachments/assets/a6072c2f-b8cc-4285-9acf-18c34c11c2fd" />
+
 
 
 ---
@@ -136,4 +140,4 @@ Make sure the backend is running on `http://localhost:5141` before starting the 
 
 ---
 
-Built by [Meghdad jafari](https://meghdadjafari.dev)
+Built by [Meghdad Jafari](https://meghdadjafari.dev)
